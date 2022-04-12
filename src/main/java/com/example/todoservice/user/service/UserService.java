@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -47,6 +48,6 @@ public class UserService {
         if (Objects.isNull(user) || (user.getType() != User.Type.ADMIN)) {
             return new LinkedList<>();
         }
-        return (List<User>) userMap.values();
+        return userMap.entrySet().stream().map(entry -> entry.getValue()).collect(Collectors.toList());
     }
 }

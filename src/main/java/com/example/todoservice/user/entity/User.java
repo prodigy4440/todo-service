@@ -1,9 +1,12 @@
 package com.example.todoservice.user.entity;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+@JacksonXmlRootElement(localName = "user")
 public class User implements Serializable {
 
     private UUID id;

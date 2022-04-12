@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,15 +27,21 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(path = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<User> create(@RequestBody User user) {
         User save = userService.save(user);
         return ResponseEntity.ok(save);
     }
 
+    @GetMapping(path = "/list/{login}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<User>> list(@PathVariable(name = "login") UUID id) {
+        List<User> users = userService.list(id);
+        return ResponseEntity.ok(users);
+    }
+
     @DeleteMapping(path = "/delete/{login}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<User> delete(@PathVariable("login") UUID login,
-                                       @RequestParam("id") UUID id) {
+    public ResponseEntity<User> delete(@PathVariable("login") UUID login, @RequestParam("id") UUID id) {
         User user = userService.delete(login, id);
         if (Objects.isNull(user)) {
             return ResponseEntity.badRequest().build();
